@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Roupas Senas - Gerenciamento de Usuários</title>
+    <style>
+        body {
+            background-color: #6e37e0;
+            color: #000000;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header__logo {
+            font-weight: bold;
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        .header__menu-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .header__menu-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000000;
+        }
+
+        .table {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 4px;
+            max-width: 600px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .table__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .table__title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .table__body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .table__cell {
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="header__logo">Roupas Senas - Gerenciamento de Usuários</h1>
+        <button class="header__menu-btn" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+            </svg>
+        </button>
+    </div>
+    <div class="table">
+        <div class="table__header">
+            <h2 class="table__title">Usuários</h2>
+            <button onclick="refreshTable()">Atualizar</button>
+        </div>
+        <div class="table__body" id="userTable">
+            <!-- Os dados dos usuários serão exibidos aqui -->
+        </div>
+    </div>
+
+    <script>
+        function refreshTable() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "listar_usuarios.php", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var users = JSON.parse(xhr.responseText);
+                        renderTable(users);
+                    } else {
+                        alert("Ocorreu um erro ao atualizar a tabela de usuários");
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function renderTable(users) {
+            var table = document.getElementById("userTable");
+            table.innerHTML = ""; // Limpar o conteúdo da tabela antes de renderizar
+
+            // Cabeçalho da tabela
+            var headerRow = document.createElement("div");
+            headerRow.classList.add("table__row");
+
+            var nameHeader = document.createElement("div");
+            nameHeader.classList.add("table__cell");
+            nameHeader.textContent = "Nome";
+
+            var emailHeader = document.createElement("div");
+            emailHeader.classList.add("table__cell");
+            emailHeader.textContent = "Email";
+
+            var cpfHeader = document.createElement("div");
+            cpfHeader.classList.add("table__cell");
+            cpfHeader.textContent = "CPF";
+
+            headerRow.appendChild(nameHeader);
+            headerRow.appendChild(emailHeader);
+            headerRow.appendChild(cpfHeader);
+
+            table.appendChild(headerRow);
+
+            // Dados dos usuários
+            users.forEach(function(user) {
+                var userRow = document.createElement("div");
+                userRow.classList.add("table__row");
+
+                var nameCell = document.createElement("div");
+                nameCell.classList.add("table__cell");
+                nameCell.textContent = user.nome;
+
+                var emailCell = document.createElement("div");
+                emailCell.classList.add("table__cell");
+                emailCell.textContent = user.email;
+
+                var cpfCell = document.createElement("div");
+                cpfCell.classList.add("table__cell");
+                cpfCell.textContent = user.cpf;
+
+                userRow.appendChild(nameCell);
+                userRow.appendChild(emailCell);
+                userRow.appendChild(cpfCell);
+
+                table.appendChild(userRow);
+            });
+        }
+
+        // Atualizar a tabela ao carregar a página
+        window.addEventListener("load", refreshTable);
+    </script>
+</body>
+</html>

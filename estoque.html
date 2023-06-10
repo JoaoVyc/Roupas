@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Roupas Senas - Estoque</title>
+    <style>
+        body {
+            background-color: #6e37e0;
+            color: #000000;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header__logo {
+            font-weight: bold;
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        .header__menu-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .header__menu-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000000;
+        }
+
+        .menu {
+            background-color: #ffffff;
+            position: fixed;
+            top: 60px;
+            left: -250px;
+            width: 250px;
+            height: calc(100% - 60px);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .menu.open {
+            left: 0;
+        }
+
+        .menu__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu__list-item {
+            padding: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .menu__list-link {
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .table {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 4px;
+            max-width: 600px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .table__row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+            padding: 10px 0;
+        }
+
+        .table__header {
+            font-weight: bold;
+        }
+
+        .table__data {
+            flex-basis: 25%;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            menu.classList.toggle("open");
+        }
+
+        function fetchRoupas() {
+            fetch("file:///C:/wamp64/www/Roupas/estoque.html")
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById("table-body");
+                    table.innerHTML = "";
+
+                    data.forEach(roupa => {
+                        const row = document.createElement("div");
+                        row.classList.add("table__row");
+
+                        const tamanho = document.createElement("div");
+                        tamanho.classList.add("table__data");
+                        tamanho.textContent = roupa.tamanho;
+
+                        const tipo = document.createElement("div");
+                        tipo.classList.add("table__data");
+                        tipo.textContent = roupa.tipo;
+
+                        const genero = document.createElement("div");
+                        genero.classList.add("table__data");
+                        genero.textContent = roupa.genero;
+
+                        const cor = document.createElement("div");
+                        cor.classList.add("table__data");
+                        cor.textContent = roupa.cor;
+
+                        row.appendChild(tamanho);
+                        row.appendChild(tipo);
+                        row.appendChild(genero);
+                        row.appendChild(cor);
+
+                        table.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Erro ao obter roupas:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchRoupas);
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1 class="header__logo">Roupas Senas - Estoque</h1>
+        <button class="header__menu-btn" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+            </svg>
+        </button>
+    </div>
+    <div class="menu" id="menu">
+        <ul class="menu__list">
+            <li class="menu__list-item"><a href="tela_ajuda.html">Sobre nós</a></li>
+            <li class="menu__list-item"><a href="cadastro_roupas.html">Cadastro de Roupas</a></li>
+        </ul>
+        <button class="header__menu-btn" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M20 6L6 20M6 6l14 14"/>
+            </svg>
+        </button>
+    </div>
+    <div class="table">
+        <div class="table__row">
+            <div class="table__header">Tamanho</div>
+            <div class="table__header">Tipo</div>
+            <div class="table__header">Gênero</div>
+            <div class="table__header">Cor</div>
+        </div>
+        <div id="table-body"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<?php
+include_once './conexao.php';
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Roupas Senas - Sobre Nós</title>
+	<meta charset="utf-8">
+	<style>
+		body {
+			background-color: #836FFF;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		.header {
+			background-color: #fff;
+			padding: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.logo {
+			color: #000;
+			font-size: 24px;
+			font-weight: bold;
+			text-transform: uppercase;
+			margin-left: 10px;
+		}
+
+		.menu-icon {
+			margin-right: 10px;
+			cursor: pointer;
+		}
+
+		.sidebar {
+			background-color: #fff;
+			position: fixed;
+			top: 60px;
+			left: -250px;
+			width: 250px;
+			height: calc(100% - 60px);
+			padding: 20px;
+			box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+			transition: all 0.3s ease;
+		}
+
+		.sidebar.open {
+			left: 0;
+		}
+
+		.container {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			margin: 20px auto;
+			max-width: 400px;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		p {
+			margin-bottom: 10px;
+			color: #333;
+		}
+
+	</style>
+	<script>
+		function toggleSidebar() {
+			var sidebar = document.getElementById("sidebar");
+			sidebar.classList.toggle("open");
+		}
+	</script>
+</head>
+<body>
+	<div class="header">
+		<h1 class="logo">Roupas Senas - Sobre Nós</h1>
+		<div class="menu-icon" onclick="toggleSidebar()">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="24px" height="24px">
+				<path d="M0 0h24v24H0z" fill="none"/>
+				<path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+			</svg>
+		</div>
+	</div>
+	<div class="container">
+		<h1>Sobre Nós</h1>
+		<p>Bem-vindo(a) ao Roupas Senas, a sua solução para gestão de estoque de roupas.</p>
+		<p>No Roupas Senas, nós temos como objetivo simplificar o processo de gerenciamento e controle de estoque de roupas para empresas de todos os tamanhos.</p>
+		<p>Nossa interface amigável e recursos poderosos tornam fácil organizar, categorizar e acompanhar seus itens de roupas de forma eficiente.</p>
+		<p>Seja você proprietário(a) de uma boutique, loja de varejo ou negócio de roupas online, o Roupas Senas está aqui para ajudá-lo(a) a manter o controle do seu estoque e impulsionar o seu sucesso.</p>
+		<p>Entre em contato conosco para saber mais sobre como podemos ajudar o seu negócio.</p>
+		<p>Telefone: (11) 1234-5678</p>
+		<p>Email: contato@roupassenas.com</p>
+	</div>
+	<div class="sidebar" id="sidebar">
+		<button onclick="toggleSidebar()">Fechar</button>
+		<ul>
+			<li><a href="cadastrar_roupas.html">Cadastrar Roupas</a></li>
+			<li><a href="estoque.html">Estoque</a></li>
+		</ul>
+	</div>
+</body>
+</html>

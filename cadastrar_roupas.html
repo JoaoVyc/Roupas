@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Roupas Senas - Cadastro</title>
+    <style>
+        body {
+            background-color: #6e37e0;
+            color: #000000;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header__logo {
+            font-weight: bold;
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        .header__menu-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .header__menu-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000000;
+        }
+
+        .menu {
+            background-color: #ffffff;
+            position: fixed;
+            top: 60px;
+            left: -250px;
+            width: 250px;
+            height: calc(100% - 60px);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .menu.open {
+            left: 0;
+        }
+
+        .menu__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu__list-item {
+            padding: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .menu__list-link {
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .form {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 4px;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .form__group {
+            margin-bottom: 20px;
+        }
+
+        .form__label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form__input {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .form__select {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #6e37e0;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var menuBtn = document.getElementById("menu-btn");
+            var menu = document.getElementById("menu");
+            var cadastrarBtn = document.getElementById("cadastrar-btn");
+
+            menuBtn.addEventListener("click", function() {
+                menu.classList.toggle("open");
+            });
+
+            cadastrarBtn.addEventListener("click", function(event) {
+                event.preventDefault();
+
+                var tamanho = document.getElementById("tamanho").value;
+                var tipo = document.getElementById("tipo").value;
+                var genero = document.getElementById("genero").value;
+                var cor = document.getElementById("cor").value;
+                var quantidade = document.getElementById("quantidade").value;
+
+                if (tamanho === "" || tipo === "" || genero === "" || cor === "" || quantidade === "") {
+                    alert("É preciso preencher todos os campos para cadastrar uma roupa");
+                    return;
+                }
+
+                // Criar um objeto FormData para enviar os dados
+                var formData = new FormData();
+                formData.append("tamanho", tamanho);
+                formData.append("tipo", tipo);
+                formData.append("genero", genero);
+                formData.append("cor", cor);
+                formData.append("quantidade", quantidade);
+
+                // Enviar os dados para cadastrar_roupas.php usando fetch API
+                fetch("cadastrar_roupas.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        alert("A roupa foi cadastrada com sucesso");
+                    } else {
+                        alert("Ocorreu um erro ao cadastrar a roupa");
+                    }
+                })
+                .catch(function(error) {
+                    alert("Ocorreu um erro ao cadastrar a roupa");
+                    console.log(error);
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="header__logo">Roupas Senas - Cadastro</h1>
+        <button class="header__menu-btn" id="menu-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+            </svg>
+        </button>
+    </div>
+    <div class="menu" id="menu">
+        <ul class="menu__list">
+            <li class="menu__list-item"><a class="menu__list-link" href="tela_ajuda.html">Sobre nós</a></li>
+            <li class="menu__list-item"><a class="menu__list-link" href="estoque.html">Estoque</a></li>
+        </ul>
+        <button class="header__menu-btn" id="close-menu-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M20 6L6 20M6 6l14 14" />
+            </svg>
+        </button>
+    </div>
+    <form class="form">
+        <div class="form__group">
+            <label class="form__label" for="tamanho">Tamanho:</label>
+            <select class="form__select" id="tamanho" name="tamanho">
+                <option value=""></option>
+                <option value="PP">PP</option>
+                <option value="P">P</option>
+                <option value="M">M</option>
+                <option value="G">G</option>
+                <option value="GG">GG</option>
+            </select>
+        </div>
+
+        <div class="form__group">
+            <label class="form__label" for="tipo">Tipo:</label>
+            <select class="form__select" id="tipo" name="tipo">
+                <option value=""></option>
+                <option value="Camisa">Camisa</option>
+                <option value="Calça">Calça</option>
+                <option value="Vestido">Vestido</option>
+                <option value="Blusa">Blusa</option>
+                <option value="Jaqueta">Jaqueta</option>
+            </select>
+        </div>
+
+        <div class="form__group">
+            <label class="form__label" for="genero">Gênero:</label>
+            <select class="form__select" id="genero" name="genero">
+                <option value=""></option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Unissex">Unissex</option>
+            </select>
+        </div>
+
+        <div class="form__group">
+            <label class="form__label" for="cor">Cor:</label>
+            <input class="form__input" type="text" id="cor" name="cor">
+        </div>
+
+        <div class="form__group">
+            <label class="form__label" for="quantidade">Quantidade:</label>
+            <input class="form__input" type="number" id="quantidade" name="quantidade">
+        </div>
+
+        <button class="btn" id="cadastrar-btn">Cadastrar</button>
+    </form>
+</body>
+
+</html>
